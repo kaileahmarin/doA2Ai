@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>Current page</title>
+    <link rel="stylesheet" href="./popup.css" />
+  </head>
+  <body>
+    <main class="panel" aria-labelledby="panel-title">
+      <header class="page-header">
+        <div class="page-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" role="img">
+            <path d="M7 3.75h7.2L18.25 7.8v12.45H7z" />
+            <path d="M14 3.75V8h4.25M9.75 12h5.5M9.75 15.5h5.5" />
+          </svg>
+        </div>
+        <div class="page-copy">
+          <p class="eyebrow">Current page</p>
+          <h1 id="panel-title">Checking this tab</h1>
+          <p id="page-origin" class="page-origin">Waiting for page access</p>
+        </div>
+        <button
+          id="refresh-button"
+          class="icon-button"
+          type="button"
+          aria-label="Refresh current page capabilities"
+          aria-controls="capability-list empty-state"
+          title="Refresh"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M19 8V4m0 0h-4m4 0-3.15 3.15A7 7 0 1 0 19 12" />
+          </svg>
+        </button>
+      </header>
+
+      <section
+        class="status-card"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        aria-labelledby="status-title"
+      >
+        <div id="status-indicator" class="status-indicator" aria-hidden="true">
+          <span class="status-dot"></span>
+        </div>
+        <div class="status-copy">
+          <h2 id="status-title">Checking WebMCP</h2>
+          <p id="status-detail">Reading the capabilities exposed by this page.</p>
+        </div>
+        <span id="status-count" class="status-count" aria-hidden="true" hidden></span>
+      </section>
+
+      <section class="capabilities" aria-labelledby="capabilities-title">
+        <div class="section-heading">
+          <h2 id="capabilities-title">Capabilities</h2>
+          <span id="live-label" class="live-label" hidden>From this page</span>
+        </div>
+        <ul id="capability-list" class="capability-list" aria-label="Current-page capabilities"></ul>
+        <div id="empty-state" class="empty-state">
+          <span class="empty-glyph" aria-hidden="true">—</span>
+          <p id="empty-copy">Capabilities will appear here when the page exposes them.</p>
+        </div>
+      </section>
+
+      <footer>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3.75 19 6.6v4.9c0 4.4-2.8 7.45-7 8.75-4.2-1.3-7-4.35-7-8.75V6.6z" />
+          <path d="m9.3 12 1.7 1.7 3.8-4" />
+        </svg>
+        <span>Human action stays on this page.</span>
+      </footer>
+    </main>
+    <script type="module" src="./popup.js"></script>
+  </body>
+</html>
