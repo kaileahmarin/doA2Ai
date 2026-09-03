@@ -1,0 +1,19 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "doa2ai-broker",
+	"main": "src/worker.js",
+	"compatibility_date": "2026-08-31",
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "doa2ai-broker",
+			"migrations_dir": "migrations",
+			"database_id": "0b639360-4c66-434e-9381-45c8fd4a2563"
+		}
+	],
+	"vars": {
+		"ALLOWED_EXTENSION_ORIGINS": "chrome-extension://eiilnppmhoeekhknbegeoechlkcjieme",
+		"SESSION_TTL_SECONDS": "3600",
+		"COMMAND_RESULT_TIMEOUT_SECONDS": "180"
+	}
+}

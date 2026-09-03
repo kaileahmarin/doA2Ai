@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Activity · doA2Ai</title>
+    <link rel="stylesheet" href="review.css">
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <p class="eyebrow">LOCAL ACTIVITY</p>
+          <h1>Receipts</h1>
+        </div>
+        <span id="activity-count" class="status-pill" data-tone="neutral">Loading</span>
+      </header>
+      <p class="summary">Protected actions retained by this browser. Open one receipt for its redacted request, authority, execution, verification, and binding record.</p>
+      <section aria-labelledby="activity-heading">
+        <h2 id="activity-heading">Recent protected actions</h2>
+        <div id="activity-list" class="receipt-list"></div>
+      </section>
+      <p id="message" class="message" role="status" aria-live="polite"></p>
+    </main>
+    <script src="activity.js"></script>
+  </body>
+</html>

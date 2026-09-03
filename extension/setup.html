@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>doA2Ai settings</title>
+    <link rel="stylesheet" href="setup.css">
+  </head>
+  <body>
+    <main>
+      <header>
+        <p class="eyebrow">DOA2AI SETTINGS</p>
+        <h1>Protection and connection</h1>
+        <p class="intro">Your authority policy, task boundaries, and full receipt history stay in this browser. The service carries only the minimum coordination state.</p>
+      </header>
+
+      <section class="card" aria-labelledby="connection-heading">
+        <div class="section-heading">
+          <div>
+            <h2 id="connection-heading">Connection</h2>
+            <p id="connection-detail">Checking the built-in service…</p>
+          </div>
+          <span id="connection-status" class="status-pill" data-tone="neutral">Checking</span>
+        </div>
+        <dl>
+          <div><dt>Service</dt><dd id="service-origin">Built in</dd></div>
+          <div><dt>Device</dt><dd id="device-state">Checking</dd></div>
+        </dl>
+        <div class="button-row">
+          <button id="connect-button" type="button">Connect</button>
+          <button id="control-button" class="secondary" type="button">Open control center</button>
+          <button id="rotate-button" class="secondary" type="button">Replace device key</button>
+        </div>
+        <p class="fine-print">Replace the device key only to recover from a revoked or unusable registration. Local tasks, rules, and receipts remain on this browser.</p>
+      </section>
+
+      <section class="card" aria-labelledby="policy-heading">
+        <div class="section-heading">
+          <div>
+            <h2 id="policy-heading">Starter authority policy</h2>
+            <p>Low-sensitivity reads on cooperative pages can proceed. Inferred changes plus external, sensitive, financial, or irreversible actions ask. Credential, security, and destructive actions block.</p>
+          </div>
+          <span id="policy-status" class="status-pill" data-tone="neutral">Checking</span>
+        </div>
+        <div class="button-row">
+          <button id="pause-button" class="secondary" type="button">Pause protected actions</button>
+          <button id="rules-button" class="secondary" type="button">Manage rules</button>
+        </div>
+      </section>
+
+      <details class="card advanced">
+        <summary>Advanced service override</summary>
+        <p>Use this only when operating a compatible doA2Ai service. HTTPS is required. No bearer token is stored here.</p>
+        <form id="service-form">
+          <label for="service-url">Service URL</label>
+          <input id="service-url" name="service-url" type="url" inputmode="url" autocomplete="off">
+          <div class="button-row">
+            <button type="submit">Save and reconnect</button>
+            <button id="restore-button" class="secondary" type="button">Use built-in service</button>
+          </div>
+        </form>
+      </details>
+
+      <p id="message" class="message" role="status" aria-live="polite"></p>
+    </main>
+    <script src="setup.js"></script>
+  </body>
+</html>

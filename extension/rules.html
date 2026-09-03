@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rules · doA2Ai</title>
+    <link rel="stylesheet" href="review.css">
+  </head>
+  <body>
+    <main>
+      <header>
+        <div><p class="eyebrow">DELEGATED AUTHORITY</p><h1>Rules</h1></div>
+        <span id="rule-count" class="status-pill" data-tone="neutral">Loading</span>
+      </header>
+      <p class="summary">The confirmed starter policy is always present. Custom reusable allows add only the exact page-bound tool definition and arguments you explicitly confirm.</p>
+      <section aria-labelledby="starter-rules-heading">
+        <h2 id="starter-rules-heading">Built-in starter rules</h2>
+        <p>These rules govern the agent as soon as doA2Ai is enabled. They are part of the product boundary, not user-created blanket permissions.</p>
+        <div id="starter-rule-list" class="receipt-list"></div>
+      </section>
+      <section aria-labelledby="setup-heading">
+        <h2 id="setup-heading">Set up a rule before the agent starts</h2>
+        <p>Choose a tool exposed by the current protected HTTPS page and provide the exact JSON arguments you want to pre-authorize. The rule is limited to this page, this tool definition, and this argument digest.</p>
+        <p id="rule-target" class="setup-target" role="status" aria-live="polite">Loading the current protected page…</p>
+
+        <label for="rule-tool">Tool</label>
+        <select id="rule-tool" name="rule-tool" disabled>
+          <option value="">Loading available tools…</option>
+        </select>
+        <p id="rule-tool-detail" class="field-help"></p>
+
+        <details id="rule-schema-details" hidden>
+          <summary>View input schema</summary>
+          <pre id="rule-schema">{}</pre>
+        </details>
+
+        <label for="rule-arguments">Exact JSON arguments</label>
+        <textarea id="rule-arguments" name="rule-arguments" rows="6" spellcheck="false" autocomplete="off">{}</textarea>
+        <p class="field-help">Only the digest of these arguments is stored. Credential-shaped fields are rejected; use non-sensitive values.</p>
+
+        <label class="consent-check"><input id="rule-confirm" type="checkbox"> I confirm this exact page, tool, and argument set may run without another prompt when it matches.</label>
+        <div class="button-row">
+          <button id="create-rule" type="button" disabled>Create exact reusable rule</button>
+          <button id="refresh-rule-target" class="secondary" type="button">Refresh page tools</button>
+        </div>
+        <p id="setup-message" class="message" role="status" aria-live="polite"></p>
+      </section>
+      <section aria-labelledby="rules-heading">
+        <h2 id="rules-heading">Your confirmed exact rules</h2>
+        <div id="rule-list" class="receipt-list"></div>
+      </section>
+      <p id="message" class="message" role="status" aria-live="polite"></p>
+    </main>
+    <script src="rules.js"></script>
+  </body>
+</html>

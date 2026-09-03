@@ -64,7 +64,7 @@ export function isCurrentInspection({
 }
 
 export function normalizeTool(tool = {}) {
-  const name = cleanText(tool.name, "unnamed_tool", 100);
+  const name = cleanText(tool.name, "unnamed_tool", 128);
   const title = cleanText(tool.title, name.replaceAll("_", " "), 120);
   return Object.freeze({
     name,
@@ -120,9 +120,9 @@ export function viewCopy(inspection) {
       empty: "Capability discovery is unavailable in this browser build.",
     },
     empty: {
-      title: "No active capabilities",
-      detail: "WebMCP is available, but this page currently exposes no tools.",
-      empty: "The list will update when the page exposes a capability.",
+      title: "No tools exposed",
+      detail: "WebMCP is available, but this page returned an empty tool registry.",
+      empty: "The page must register a WebMCP tool before this extension can list or enable it.",
     },
     ready: {
       title: "Tools available",

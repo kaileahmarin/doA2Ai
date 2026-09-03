@@ -2,125 +2,145 @@
 
 **Human-authorized execution for WebMCP**
 
-## Target product sentence
+## Product promise
 
-doA2Ai lets an agent act only to the precise boundary of the authority it actually possesses. For each exact proposed action, the applicable authority mode determines whether sufficient authority must be granted for that transaction or may come from a precise prior delegation. When authority is missing or uncertain, the trusted review profile determines whether doA2Ai creates a focused docket or terminates the agent-mediated attempt safely. The integrated target service enforces execution eligibility, performs the real action, and returns evidence used to verify and receipt the result.
+doA2Ai is a bounded authorization layer for agent-mediated WebMCP work. It lets an external agent continue automatically while an exact proposed action remains inside authority the person has already confirmed. When authority is missing or uncertain, doA2Ai either asks for the smallest necessary human decision or blocks the action according to policy. It then records what was requested, authorized, dispatched, reported, and verified in a truthful receipt.
 
-The interactive static reference client implements only the transaction-authorized path. It has no authentication, backend, or external target service. It models the authority, execution, verification, and receipt boundaries in browser memory and must not be presented as proof that an outside service performed an action.
+The core lifecycle is:
 
-The repository also contains a standalone, site-owned, in-memory delegated-authority comparison proof. It is not imported by the reference client and does not implement grant issuance, identity or audience binding, durable or cross-instance consumption, revocation, target execution, verification, or receipts. An `eligible` comparison is not an execution credential.
+**bounded task → minimal capabilities → agent work → authority check → proceed, focused review, or block → execution → verification → receipt**
+
+doA2Ai is not an agent, an agent host, a workflow planner, or a generic DOM automation system. Agents and their tasks remain external. doA2Ai observes and mediates actions routed through its protected WebMCP tools.
 
 ## Who it is for
 
-People who want an agent to remove administrative work without inheriting their identity, credentials, judgement, or legal authority.
+V1 is for an individual using one or more external browser or MCP agents who wants useful automation without giving those agents blanket authority, credentials, or their identity.
 
-## Browser surface
+## Product topology
 
-The optional local product GUI is a thin browser-extension control for the current page. It shows page identity and the WebMCP capabilities currently exposed by that page. It does not create a separate task dashboard, approval inbox, or duplicate form surface.
+The intended V1 product consists of:
 
-The website owns its visible business semantics, protected inputs, focused review, human decisions, and result presentation. When human authority is required, the person acts at the exact place on the website. The extension may indicate current-page status, but it does not reproduce or substitute for that interaction.
+- an installed Manifest V3 Chrome extension that owns local policy, task state, decisions, and receipt history;
+- a real HTTPS Worker that transports action requests and hosts the product control center;
+- real WebMCP pages that own their tools and business semantics; and
+- external agents that invoke doA2Ai-protected versions of those tools.
 
-After local unpacked installation, the extension action is intended to be invocable on ordinary HTTP and HTTPS websites. Availability does not manufacture capability: a compatible browser can list tools only when the page exposes them, pages without WebMCP tools expose none, and browser-restricted URLs remain inaccessible. The initial extension uses temporary `activeTab` access and does not request persistent all-site page access. Installed runtime behavior remains **NOT PROVEN** until browser acceptance is performed.
+The extension is the local authority owner. The Worker is a bounded transport and coordination service, not the source of universal policy or a repository of full receipt history. The HTTPS control center displays a read-only, redacted projection through an exact-origin extension bridge and does not need to remain open. Authority decisions and mutations remain on extension-owned pages.
 
-## Domain boundary
+The browser-integrated path is the implemented V1 challenge path. The service has short-lived connection-credential lifecycle primitives for a future standalone MCP path, but this candidate does not expose a V2 standalone MCP endpoint or filtered catalog. That secondary path remains staged and is not part of acceptance or judging claims.
 
-doA2Ai is domain-agnostic. It does not define research workflows, source-selection rules, publication rules, collaborator records, or another application's business semantics. Those belong to the integrating application and target service. doA2Ai's product concern is whether the exact proposed action has sufficient authority, whether a focused human handoff is required, and whether execution evidence matches the authorized or delegated state.
+## Two authority modes
 
-The fictional source-backed research brief is only the current synthetic demo fixture. Its fields, rules, tool names, and user interface are not part of the doA2Ai product model or intended public contract.
+### Delegated authority
 
-## Authority modes
+A proposed action may proceed without interrupting the person when it fits a previously confirmed rule and every bound detail still matches. The authority is scoped to the action's effect, data, recipient, origin, tool and schema, limits, reversibility, task boundary, and expiry.
 
-### Transaction-authorized mode
+**confirmed boundary → exact action comparison → in bounds → execution → verification → receipt**
 
-The agent may prepare a task and bring it to an executable state, but the person must authorize the final consequential transaction. Successful preparation does not grant the agent any human-only capability or final authority.
+### Transaction authorization
 
-**delegated task → bounded capabilities → agent preparation → human-only inputs → exact human authorization → target-service execution → verification → receipt**
+When an action is outside confirmed authority, uncertain, or configured to require presence, the person may authorize that exact action once. Approval is bound to the displayed proposal and cannot be reused after a relevant origin, tool, schema, argument, or impact change.
 
-The current synthetic reference client implements this mode.
+**authority gap → focused review → exact human decision → execution or denial → verification → receipt**
 
-### Delegated-authority mode
+These are the only authority modes. `allow`, `ask`, and `block` are evaluation outcomes, not additional modes:
 
-The person has previously granted a sufficiently precise execution envelope. An exact proposed action that remains entirely within that grant may proceed without another interruption when the trusted review profile permits it. If any bound term changes or exceeds the grant—including amount, recipient, object, permission, timing, account, operation, or constraint—the proposal is not executable under that grant.
+- **allow:** sufficient delegated authority exists, so work proceeds quietly;
+- **ask:** an exact transaction authorization is permitted and required; and
+- **block:** policy forbids the action, so it is not dispatched and no routine interruption is created.
 
-**delegated authority → bounded task → minimal capabilities → exact grant validation → eligible target-service execution → verification → receipt**
+## Policy and task model
 
-On a boundary crossing, `ask_on_exception` may create a focused docket; `autonomous_within_bounds` terminates that attempt without interrupting the person. Transaction-authorized, `always_ask`, and user-presence-required actions use the applicable human ceremony, while `never` remains non-executable. These profiles refine review behavior; they do not create a third authority mode.
+The person confirms one recommended starter policy during onboarding. It supports useful automation rather than defaulting every action to review:
 
-**delegated authority → boundary exceeded or uncertain → trusted profile decision → focused docket or terminal nonexecution**
+- sufficiently classified low-sensitivity reads may proceed; inferred changes ask unless a separately confirmed exact rule covers them;
+- disclosure, communications, commitments, publishing, purchases, account changes, and irreversible actions ask; and
+- credential, security-sensitive, and destructive actions are unconditional V1 blocks; this candidate exposes no override for them.
 
-Delegated-authority execution is part of the target product model; it is not implemented by the current prototype. The standalone comparison proof validates a closed proposed-action envelope against one in-memory prior grant and returns semantic differences when the action is outside or uncertain. Its local docket result demonstrates one comparison policy, not the complete profile-sensitive product rule, and the proof must not be described as an end-to-end delegated-authority path.
+People may add reusable cross-task rules and temporary task rules for non-sensitive reads or reversible self-directed changes. An allow rule remains bound to the exact origin, tool-definition digest, and canonical arguments digest; “cross-task” never means blanket authority across sites, tools, or changed inputs. External, financial, irreversible, credential, security, and destructive actions cannot create reusable allow rules in V1. Reusable allow requires a second explicit confirmation. A free-form rule is not authority until doA2Ai compiles it into a visible structured rule and the person confirms that structure. Before an agent is used, the extension's Rules view may create the same universal exact rule from the currently protected HTTPS page; it never accepts a user-typed origin, broad tool grant, or unbound argument pattern.
 
-## Core authority rule
+Tasks group related actions and receipts; they do not require an agent to submit a plan. One task may involve multiple pages, origins, or external agents, but every action is evaluated independently. When an external protocol supplies a stable task reference it is recorded as provenance. Otherwise doA2Ai issues an opaque connection-bound task identifier at the first protected action. Agent claims and heuristic labels may organize activity but cannot grant authority.
 
-> doA2Ai determines whether sufficient authority exists for the exact proposed action. The authority mode for that action determines whether the required authority is transaction-specific or may have been delegated previously.
+Temporary task authority expires when the task ends or after 30 minutes without a gated action by default. The person can shorten that interval, revoke a task, or pause all protected execution.
 
-Being inside a previously granted scope is not universally sufficient for autonomous execution. The required authority depends on the action and its configured mode. Human-only capabilities never become agent capabilities merely because preparation succeeded.
+## Capability and impact model
 
-## Docket model
+doA2Ai exposes protected versions of relevant page-owned WebMCP tools. It preserves the source tool's actual name, description, and schema as provenance while using a collision-safe protected identifier. It does not invent capabilities from DOM content.
 
-The docket is the compact exception packet used only when the trusted profile permits or requires a human authority decision: what the agent wants to do, why existing authority is insufficient, what changed, and what decision is needed. It should emphasize the relevant semantic difference rather than present a generic approval prompt.
+Capability selection is automatic and action-driven. The normal product does not ask the person to check tool boxes for every task.
 
-For example, when a prior grant contains a numeric maximum and the exact proposal exceeds it, the docket should identify the bound, the proposed value, and the precise excess, then ask the person to modify, authorize the exception, or deny it. The integrating application supplies the meaning of those fields; doA2Ai supplies the authority comparison and focused handoff.
+Ordinary WebMCP tools work conservatively. Standard page annotations plus the tool name, description, and schema provide cooperative classification evidence interpreted by confirmed local policy; they are not themselves a rule or approval. V1 does not independently attest page semantics, so a deceptive or misannotated target is outside the cooperative-target guarantee. A stronger structured, tool-bound impact manifest remains a future contract direction. Missing, malformed, stale, or conflicting metadata makes the action uncertain.
 
-## Promise
+Every request is bound to its exact origin, document, catalog, tool definition, input schema, and arguments digest. A relevant change invalidates a pending or reusable authorization.
 
-Target product model: agents act within the exact authority they possess. When a new human authority decision is permitted or required by the trusted profile, doA2Ai creates a focused handoff; otherwise the attempt fails closed without manufacturing routine review. The integrated target service executes only after the authorization boundary is satisfied, and the resulting action is verified and receipted. The interactive prototype only simulates the transaction-authorized division of responsibility in browser memory; the standalone delegated-authority module stops at comparison and same-instance consumption.
+## Human experience
 
-## Seven verified transaction-authorized browser invariants
+The extension popup is a small native Chrome utility. It shows protection and connection state, active tasks, pending reviews, a calm blocked-event count, global pause, per-task revoke, and links to details. It does not contain an agent, duplicate the target website, or imitate a browser window.
 
-1. Only one task and one scoped execution lease may be active.
-2. The agent sees no more than the tools useful in the current task state.
-3. Human-only inputs never appear in an agent tool schema or result.
-4. There is no agent-callable authorization or execution tool.
-5. A transaction-specific grant is exact-state, origin-bound, expiring, single-use, and digest-bound.
-6. Execution without a valid grant fails; a divergent preflight is blocked, and a divergent committed result is recorded truthfully and treated as failure.
-7. Every terminal outcome produces a human-readable, machine-exportable record.
+Human review is exceptional. A notification may alert the person that a decision is waiting; the authorization itself occurs only after the person opens the extension-owned compact review and sees the exact context. The primary choices are **Approve once** and **Deny**. For eligible non-sensitive reads or reversible self-directed changes, expandable options can allow the same exact site/tool-definition/arguments binding for this task or across tasks; consequential actions do not show reusable allow. **Always block** remains available. Reusable allow requires a second confirmation. The notification and review layering remains provisional until owner-run usability testing.
 
-## Responsibility model
+Blocked actions appear in the badge and activity history without a notification by default.
 
-- The agent prepares within the capabilities exposed for the current task.
-- doA2Ai evaluates the exact proposed action against the applicable authority, creates a docket when new authority is required, binds and consumes grants, and verifies execution evidence.
-- The human supplies protected inputs and grants transaction-specific or exceptional authority where required.
-- The integrated target service enforces the authorization boundary and performs the real-world action.
-- The receipt layer records requested, prepared, authorized or delegated, executed, and verified states.
+## Execution and receipts
 
-The current prototype collapses these responsibilities into one browser-resident simulator. It does not establish a production topology, authentication boundary, or target-service integration. doA2Ai is not assumed to be a universal transaction proxy.
+A pending action receives one stable action identifier. The agent polls or resumes that same action after a decision; it does not resubmit the side effect. Safe read-only work may retry. Identical state-changing retries in the same exact task/document/tool/arguments binding converge on the prior durable lineage, including after a lost callback. A deliberate repeat requires a distinct target-supplied request or idempotency input. An ambiguous outcome remains `unknown` until reconciled.
 
-For a future integration, authority profiles and grant lifecycle, sensitive-data mediation, capability scoping and provenance, target commit and reconciliation, and independent acceptance remain separate responsibilities. The production identity, transport, cross-boundary atomicity mechanism, persistence, credential custody, and deployment topology remain **UNKNOWN**.
+Every protected action produces a human-readable and machine-readable receipt, including allowed, denied, blocked, failed, divergent, and unknown outcomes. The receipt separates:
 
-A future target-service adapter must preserve exact action binding, a single authority lifecycle, non-committing preflight, at-most-once commit semantics, read-only reconciliation, target-observed evidence, and truthful unknown or divergent outcomes. This snapshot deliberately does not choose a final execution-adapter API, network transport, identity, persistence, authentication, signing, or deployment topology.
+- requested state;
+- authority and policy revision used;
+- dispatch state;
+- target- or tool-reported result;
+- verification evidence; and
+- whether those states matched.
 
-## Challenge scope
+The local device key signs a self-contained authority-proof envelope and canonical receipt. The receipt includes the non-secret signer public JWK, device identifier, algorithm, and key thumbprint; local verification therefore remains possible after the active key is rotated. The broker authenticates a separate device-signed request and binds the terminal digest to the action identifier and server time. This is device-origin tamper evidence; it is not a server signature, third-party identity attestation, or independent target attestation.
 
-The browser prototype remains a synthetic reference client for the WebMCP challenge. The primary challenge slice should preserve and verify its transaction-authorized path: dynamic task-scoped tools, agent preparation, human-only operations, exact authorization, divergence handling, execution comparison, and receipts. Its fixture-specific business semantics are not a product-domain commitment.
+Receipt evidence is labelled only as `independently_verified`, `tool_reported`, `divergent`, `blocked`, `failed`, or `unknown`. Claims never exceed the available evidence.
 
-The standalone delegated-authority comparison proof may inform a future path, but it is deliberately absent from the canonical transaction-authorized UI and execution flow. End-to-end delegated execution or a second synthetic integration may be added only after the primary experience is stable, verified, and backed by explicit identity, persistence, adapter, and receipt contracts. Neither is claimed by the current implementation.
+## Data and retention
 
-## Non-goals for the synthetic reference client
+Rules, task state, and full receipt history are local-first. This candidate retains receipt history for 30 days; receipts explicitly pinned or copied as exported JSON remain.
 
-- Real collaboration, publication, identity, or OAuth integration
-- Credential collection or storage
-- A universal authorization language
-- Agent identity or multi-agent orchestration
-- Server-signed or externally verifiable receipts
-- Generic cross-site DOM automation or an extension-owned duplicate decision flow
-- A universal transaction proxy
+The broker retains only the minimum connection, replay, pending-action, and terminal binding data needed for transport. Action arguments and results are removed after terminal local acknowledgement, with a 24-hour hard purge ceiling. Optional encrypted account sync, recovery, and multi-device continuity are later features rather than a V1 account requirement.
 
-The prototype uses deterministic mock data and a SHA-256 integrity digest. The digest demonstrates exact-state binding; it is not a claim of third-party attestation.
+If the service is unavailable, locally verifiable safe reads may continue with local receipts. State-changing actions stop before dispatch. An outage after dispatch produces `unknown` and never an automatic second attempt.
+
+## Security and enforcement boundary
+
+doA2Ai V1 governs actions when an agent uses its protected tool path. Chrome may still expose the page's native WebMCP tools directly, and the extension cannot universally intercept a bypassing agent. Cooperative browser-agent use must therefore remain explicit in the product and judging claims.
+
+A future standalone MCP path is intended to enforce a filtered, task-scoped catalog. Its implemented credential primitive is short-lived, revocable, unique per connection, and header-only, but the V2 MCP consumer/catalog adapter is not implemented in this candidate and must not be claimed or tested as present.
+
+V1 targets cooperative pages and applies all observable containment available to the extension. It does not claim to sandbox arbitrary malicious page code or prove downstream semantics without target evidence. Strong target-owned enforcement and signed target attestation are later work.
+
+## Challenge and public-release boundary
+
+The challenge deliverable is an exact verified extension test build, the real HTTPS product control center, and a public licensed source snapshot with installation and testing instructions. The first owner-run end-to-end test uses a real browser-integrated agent and a real target from the official WebMCP Challenge resources. It exercises one allowed action, one reviewed action, and one blocked action without real purchases, credentials, or personal data.
+
+Internal dogfood pages, local simulators, synthetic targets, research-brief material, insurance examples, historical prototypes, and review artifacts may remain preserved privately. They are not the product and must be absent from the public source snapshot, installable package, live control center, judge path, and video.
+
+The separate `doa2ai.omniamula.ca` site is outside this product path and remains untouched.
+
+## Verified baseline versus intended V1
+
+**OBSERVED baseline at the start of this implementation:** commit `d587d2b` contains an installed extension, deployed Worker/D1 broker source, exact action binding, exception review, real HTTPS transport, and truthful result recording. That baseline still asks the operator to enter service credentials, select page tools manually, and configure an external MCP endpoint. A Worker deployment and package were verified, but installed Chrome → real target → external agent → human decision was **NOT PROVEN**.
+
+Everything in this charter labelled as the intended V1 remains a required product behavior until implementation and acceptance evidence establish it. Source code, unit tests, a deployed health endpoint, or a local fixture must not be described as owner-run network acceptance.
 
 ## Production questions intentionally UNKNOWN
 
-The challenge prototype does not settle:
+The V1 challenge architecture does not settle the final production answer for:
 
-- final authority-service, SDK, or target-integration topology behind the optional browser extension;
-- identity model;
-- durable persistence;
+- final authority-service, SDK, or target-integration topology;
+- identity model beyond the V1 device binding;
+- durable persistence beyond local V1 browser storage;
 - production OAuth or authentication;
 - cross-application trust;
-- execution-adapter contract;
-- server signing or independently verifiable receipts;
+- execution-adapter contract and atomic authority-to-effect coupling;
+- server signing or independently trusted signer attestation;
 - universal authorization language;
 - multi-agent orchestration; or
-- jurisdiction- and class-specific legal clearance for the selected public identity.
+- jurisdiction- and class-specific legal clearance for the selected identity.
 
-This public snapshot uses **doA2Ai** as its product identity. That use is not a claim of trademark registration, legal clearance, ownership, priority, or future availability. Every production question above remains unresolved unless later evidence and an explicit decision establish an answer.
+The project owner selected **doA2Ai** for the challenge. The recorded exact-name screen is bounded evidence, not a legal opinion or formal trademark clearance.

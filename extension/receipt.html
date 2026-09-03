@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Action receipt · doA2Ai</title>
+    <link rel="stylesheet" href="review.css">
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <p class="eyebrow">SIGNED LOCAL RECEIPT</p>
+          <h1 id="title">Loading receipt…</h1>
+        </div>
+        <span id="receipt-status" class="status-pill" data-tone="neutral">Loading</span>
+      </header>
+      <p id="summary" class="summary">Reading the action lineage retained by this browser.</p>
+      <section aria-labelledby="details-heading">
+        <h2 id="details-heading">What happened</h2>
+        <dl>
+          <div><dt>Action</dt><dd id="action-id" class="digest">—</dd></div>
+          <div><dt>Requested</dt><dd id="requested">—</dd></div>
+          <div><dt>Authority</dt><dd id="authority">—</dd></div>
+          <div><dt>Execution</dt><dd id="execution">—</dd></div>
+          <div><dt>Verification</dt><dd id="verification">—</dd></div>
+          <div><dt>Receipt digest</dt><dd id="receipt-digest" class="digest">—</dd></div>
+          <div><dt>Device signature</dt><dd id="signature-state">—</dd></div>
+          <div><dt>Service binding</dt><dd id="binding-state">—</dd></div>
+        </dl>
+        <details>
+          <summary>Machine-readable receipt</summary>
+          <pre id="receipt-json">{}</pre>
+        </details>
+      </section>
+      <div class="actions">
+        <button id="copy-button" type="button" hidden>Copy receipt JSON</button>
+        <button id="pin-button" type="button" class="secondary" hidden>Pin receipt</button>
+      </div>
+      <p id="message" class="message" role="status" aria-live="polite"></p>
+    </main>
+    <script type="module" src="receipt.js"></script>
+  </body>
+</html>

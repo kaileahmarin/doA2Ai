@@ -1,77 +1,78 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="dark" />
-    <title>Current page</title>
-    <link rel="stylesheet" href="./popup.css" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>doA2Ai</title>
+    <link rel="stylesheet" href="popup.css">
   </head>
   <body>
-    <main class="panel" aria-labelledby="panel-title">
-      <header class="page-header">
-        <div class="page-mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" role="img">
-            <path d="M7 3.75h7.2L18.25 7.8v12.45H7z" />
-            <path d="M14 3.75V8h4.25M9.75 12h5.5M9.75 15.5h5.5" />
-          </svg>
+    <main class="popup-shell">
+      <header class="app-header">
+        <div>
+          <p class="eyebrow">AUTHORITY FOR THIS PAGE</p>
+          <h1>doA2Ai</h1>
         </div>
-        <div class="page-copy">
-          <p class="eyebrow">Current page</p>
-          <h1 id="panel-title">Checking this tab</h1>
-          <p id="page-origin" class="page-origin">Waiting for page access</p>
-        </div>
-        <button
-          id="refresh-button"
-          class="icon-button"
-          type="button"
-          aria-label="Refresh current page capabilities"
-          aria-controls="capability-list empty-state"
-          title="Refresh"
-        >
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M19 8V4m0 0h-4m4 0-3.15 3.15A7 7 0 1 0 19 12" />
-          </svg>
-        </button>
+        <span id="app-state" class="status-pill" data-tone="neutral">Checking</span>
       </header>
 
-      <section
-        class="status-card"
-        role="status"
-        aria-live="polite"
-        aria-atomic="true"
-        aria-labelledby="status-title"
-      >
-        <div id="status-indicator" class="status-indicator" aria-hidden="true">
-          <span class="status-dot"></span>
+      <section class="page-card" aria-labelledby="page-title">
+        <div class="page-heading">
+          <span id="page-status" class="status-dot" data-tone="neutral" aria-hidden="true"></span>
+          <div class="page-copy">
+            <h2 id="page-title">Current page</h2>
+            <p id="page-origin">Waiting for page details</p>
+          </div>
         </div>
-        <div class="status-copy">
-          <h2 id="status-title">Checking WebMCP</h2>
-          <p id="status-detail">Reading the capabilities exposed by this page.</p>
-        </div>
-        <span id="status-count" class="status-count" aria-hidden="true" hidden></span>
+        <p id="capability-state" class="page-detail">Checking for WebMCP capabilities…</p>
       </section>
 
-      <section class="capabilities" aria-labelledby="capabilities-title">
-        <div class="section-heading">
-          <h2 id="capabilities-title">Capabilities</h2>
-          <span id="live-label" class="live-label" hidden>From this page</span>
-        </div>
-        <ul id="capability-list" class="capability-list" aria-label="Current-page capabilities"></ul>
-        <div id="empty-state" class="empty-state">
-          <span class="empty-glyph" aria-hidden="true">—</span>
-          <p id="empty-copy">Capabilities will appear here when the page exposes them.</p>
-        </div>
+      <section id="enable-panel" class="primary-panel">
+        <h2>Enable protected agent actions</h2>
+        <p>One-time setup gives doA2Ai access to discover and protect WebMCP tools on HTTPS pages. Policy, tasks, receipts, and the non-exportable device key stay in this browser.</p>
+        <details class="onboarding-details">
+          <summary>Review the starter policy</summary>
+          <ul>
+            <li>Low-sensitivity reads on cooperative pages can proceed.</li>
+            <li>Changes, disclosure, commitments, purchases, and sensitive actions ask.</li>
+            <li>Credential, security, and destructive actions are blocked in V1.</li>
+          </ul>
+          <p>The built-in HTTPS service receives the public device key and terminal receipt digests—not your full local policy or receipts.</p>
+        </details>
+        <label class="consent-check"><input id="policy-confirm" type="checkbox"> I confirm this starter policy.</label>
+        <button id="enable-button" class="primary-button" type="button" disabled>Enable doA2Ai</button>
       </section>
 
-      <footer>
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M12 3.75 19 6.6v4.9c0 4.4-2.8 7.45-7 8.75-4.2-1.3-7-4.35-7-8.75V6.6z" />
-          <path d="m9.3 12 1.7 1.7 3.8-4" />
-        </svg>
-        <span>Human action stays on this page.</span>
+      <section id="active-panel" class="active-panel" hidden>
+        <div class="count-grid" aria-label="Activity summary">
+          <button id="tasks-button" class="count-button" type="button">
+            <span id="task-count" class="count-value">0</span>
+            <span class="count-label">Tasks</span>
+          </button>
+          <button id="reviews-button" class="count-button" type="button">
+            <span id="review-count" class="count-value">0</span>
+            <span class="count-label">Needs you</span>
+          </button>
+          <button id="activity-button" class="count-button" type="button">
+            <span id="blocked-count" class="count-value">0</span>
+            <span class="count-label">Blocked</span>
+          </button>
+        </div>
+
+        <div class="action-row">
+          <button id="pause-button" class="secondary-button" type="button">Pause</button>
+          <button id="revoke-button" class="danger-button" type="button">End page task</button>
+        </div>
+        <button id="rules-button" class="secondary-button full-button" type="button">View and add rules</button>
+      </section>
+
+      <p id="message" class="message" role="status" aria-live="polite"></p>
+
+      <footer class="footer-row">
+        <button id="control-button" class="text-button" type="button">Open control center</button>
+        <button id="setup-button" class="icon-button" type="button" aria-label="doA2Ai settings" title="Settings">⚙</button>
       </footer>
     </main>
-    <script type="module" src="./popup.js"></script>
+    <script src="popup.js"></script>
   </body>
 </html>

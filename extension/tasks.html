@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tasks · doA2Ai</title>
+    <link rel="stylesheet" href="review.css">
+  </head>
+  <body>
+    <main>
+      <header>
+        <div><p class="eyebrow">LOCAL AUTHORITY</p><h1>Tasks</h1></div>
+        <span id="task-count" class="status-pill" data-tone="neutral">Loading</span>
+      </header>
+      <p class="summary">Tasks group related protected actions. Ending a task immediately removes its temporary authority.</p>
+      <section aria-labelledby="tasks-heading">
+        <h2 id="tasks-heading">Browser tasks</h2>
+        <div id="task-list" class="receipt-list"></div>
+      </section>
+      <button id="rules-button" class="secondary" type="button">Manage rules</button>
+      <p id="message" class="message" role="status" aria-live="polite"></p>
+    </main>
+    <script src="tasks.js"></script>
+  </body>
+</html>

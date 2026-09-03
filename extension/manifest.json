@@ -1,18 +1,30 @@
 {
   "manifest_version": 3,
-  "name": "WebMCP Current Page",
-  "short_name": "Current Page",
-  "description": "Shows the WebMCP capabilities exposed by the current page.",
-  "version": "0.1.0",
+  "name": "doA2Ai",
+  "short_name": "doA2Ai",
+  "description": "Connects an external agent to bounded current-page WebMCP tools with exception-only human authority.",
+  "version": "0.3.0",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoCYgb+0gKtla4krA94ohTtpVjfJjGooES9aM3nScCcPUlc4uUckWvBLXj1ggi03QFwh/R9hL5iIoAZ2kxYdGq8uimVkvsb7flNj4EKmAeNVbhH17vf5EPds/tQfTWNyaawJrVMCQDHrfKV0k96kgcVNwUjW2vIWMP+IgT3BiNQ4izuw3oHok3RCzxK2WLb/2kXwTQRihhhq/r8FOmg1B68CV2mIlIzQ5hx/1qdF74HhxQVEklWMz84fGIPbJ1abk+idyXY2p+RPCa2NI8F4fN6RHX6vnXXjgtCcHzoZDfNcsk4nQMAPwT0kRe6n4unfA0TzDwjuA9dSrD0ECktw06wIDAQAB",
   "minimum_chrome_version": "149",
   "permissions": [
     "activeTab",
-    "scripting"
+    "alarms",
+    "notifications",
+    "scripting",
+    "storage"
   ],
+  "optional_host_permissions": [
+    "https://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
   "action": {
-    "default_title": "Current page",
+    "default_title": "doA2Ai",
     "default_popup": "popup.html"
   },
+  "options_page": "setup.html",
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'none'"
   }

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Action needs you · doA2Ai</title>
+    <link rel="stylesheet" href="review.css">
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <p class="eyebrow">ONE ACTION NEEDS YOUR AUTHORITY</p>
+          <h1 id="title">Loading action…</h1>
+        </div>
+        <span id="action-status" class="status-pill" data-tone="neutral">Loading</span>
+      </header>
+
+      <p id="summary" class="summary">Reading the exact proposed action from this browser.</p>
+
+      <section aria-labelledby="why-heading">
+        <h2 id="why-heading">Why you are being asked</h2>
+        <p id="reason">—</p>
+        <dl>
+          <div><dt>Impact</dt><dd id="impact">—</dd></div>
+          <div><dt>Task</dt><dd id="task">—</dd></div>
+        </dl>
+      </section>
+
+      <section aria-labelledby="action-heading">
+        <h2 id="action-heading">Exact proposed action</h2>
+        <dl>
+          <div><dt>Page</dt><dd id="page-title">—</dd></div>
+          <div><dt>Origin</dt><dd id="page-origin">—</dd></div>
+          <div><dt>Tool</dt><dd id="tool-name">—</dd></div>
+          <div><dt>Description</dt><dd id="tool-description">—</dd></div>
+          <div><dt>Action ID</dt><dd id="action-id" class="digest">—</dd></div>
+          <div><dt>Action digest</dt><dd id="action-digest" class="digest">—</dd></div>
+        </dl>
+        <h3>Arguments</h3>
+        <pre id="arguments">{}</pre>
+      </section>
+
+      <div id="decision-bar" class="decision-bar" hidden>
+        <button id="deny-button" class="secondary danger" type="button">Deny</button>
+        <button id="approve-button" type="button">Approve once</button>
+      </div>
+
+      <section id="more-options" class="more-options" aria-labelledby="rule-candidate-heading" hidden>
+        <h2 id="rule-candidate-heading">Save this exact boundary?</h2>
+        <p id="rule-candidate-summary">doA2Ai can propose a page-bound rule, but it does not become authority unless you explicitly confirm it.</p>
+        <div class="option-grid">
+          <button type="button" class="secondary" data-decision="allow_task">Save for this task</button>
+          <button type="button" class="secondary" data-decision="allow_universal">Save across tasks</button>
+          <button type="button" class="secondary danger" data-decision="block">Always block matching actions</button>
+        </div>
+      </section>
+
+      <button id="receipt-button" class="secondary" type="button" hidden>View receipt</button>
+      <p id="message" class="message" role="status" aria-live="polite"></p>
+    </main>
+    <script src="review.js"></script>
+  </body>
+</html>
